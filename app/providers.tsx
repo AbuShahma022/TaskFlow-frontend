@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { makeQueryClient } from "@/lib/query-client";
 import StoreProvider from "@/store/provider";
+import { AuthProvider } from "@/providers/auth-provider";
 
 export default function Providers({
   children,
@@ -24,7 +25,9 @@ export default function Providers({
     >
       <StoreProvider>
         <QueryClientProvider client={queryClient}>
+          <AuthProvider>
           {children}
+        </AuthProvider>
           <Toaster richColors position="top-right" />
         </QueryClientProvider>
       </StoreProvider>
