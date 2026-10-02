@@ -9,6 +9,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { makeQueryClient } from "@/lib/query-client";
 import StoreProvider from "@/store/provider";
 import { AuthProvider } from "@/providers/auth-provider";
+import { OrganizationProvider } from "@/providers/organization-provider";
 
 export default function Providers({
   children,
@@ -30,9 +31,11 @@ export default function Providers({
     >
       <StoreProvider>
         <QueryClientProvider client={queryClient}>
+           <OrganizationProvider>
           <AuthProvider>
           {children}
         </AuthProvider>
+         </OrganizationProvider>
           <Toaster richColors position="top-right" />
         </QueryClientProvider>
       </StoreProvider>

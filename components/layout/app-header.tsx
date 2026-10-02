@@ -7,7 +7,7 @@ import { UserProfile } from "./user-profile";
 import { OrganizationSwitcher } from "./organization-switcher";
 import { useOrganizations } from "@/hooks/queries/use-organizations";
 export function AppHeader() {
-    const { data, isLoading } = useOrganizations();
+    const { data, isLoading, isError, } = useOrganizations();
   return (
     <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
       <SidebarTrigger />
@@ -18,7 +18,7 @@ export function AppHeader() {
         <h1 className="text-sm font-medium">TaskFlow</h1>
 
         <div className="ml-auto flex items-center gap-3">
-          <OrganizationSwitcher organizations={data?.data ?? []} />
+          <OrganizationSwitcher organizations={data?.data ?? []}   isLoading={isLoading}   isError={isError}/>
           <ModeToggle />
           <UserProfile />
         </div>
