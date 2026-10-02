@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/mutations/use-login";
 import { Button } from "@/components/ui/button";
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@/hooks/mutations/use-google-login";
 import {
   Field,
   FieldError,
@@ -15,11 +17,14 @@ import {
   loginSchema,
   type LoginFormValues,
 } from "@/lib/validations/auth";
+import { Separator } from "../ui/separator";
+import { GoogleIcon } from "../icons/google-icon";
 
 
 
 export function LoginForm() {
  const loginMutation = useLogin();
+ const googleLoginMutation = useGoogleLogin();
  const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -84,6 +89,44 @@ function onSubmit(data: LoginFormValues) {
       >
         {loginMutation.isPending ? "Signing in..." : "Sign in"}
       </Button>
+
+      <div className="flex items-center gap-3">
+        <Separator className="flex-1" />
+
+        <span className="text-xs whitespace-nowrap text-muted-foreground">
+          Or continue with
+        </span>
+
+        <Separator className="flex-1" />
+      </div>
+      <div className="relative">
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            const idToken = credentialResponse.credential
+
+            if (!idToken) {
+              return
+            }
+
+            googleLoginMutation.mutate({
+              idToken,
+            })
+          }}
+          onError={() => {
+            console.error("Google login failed")
+          }}
+          useOneTap={false}
+          width="100%"
+        />
+
+        {googleLoginMutation.isPending && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-md bg-background/70">
+            <span className="text-sm text-muted-foreground">
+              Signing in with Google...
+            </span>
+          </div>
+        )}
+      </div>
     </form>
   )
 }

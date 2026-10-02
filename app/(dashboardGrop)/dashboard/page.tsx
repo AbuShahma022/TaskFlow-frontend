@@ -1,9 +1,12 @@
-import React from 'react'
+"use client";
 
-function dashboardPage() {
+
+export default function DashboardPage() {
+  
+
   return (
-    <div>dashboardPage</div>
-  )
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+    </div>
+  );
 }
-
-export default dashboardPage

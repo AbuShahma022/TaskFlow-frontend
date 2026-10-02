@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import type { LoginPayload, LoginResponse, MeResponse } from "@/types/auth";
+import type { GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse } from "@/types/auth";
 
 export const authService = {
   getMe: async (): Promise<MeResponse> => {
@@ -18,5 +18,16 @@ export const authService = {
 
     return response.data;
   },
+
+  googleLogin: async (
+  payload: GoogleLoginPayload,
+): Promise<LoginResponse> => {
+  const response = await api.post<LoginResponse>(
+    "/auth/google",
+    payload,
+  );
+
+  return response.data;
+},
 
 };

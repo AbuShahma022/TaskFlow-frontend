@@ -31,3 +31,7 @@ export interface LoginResponse {
     user: AuthUser;
   };
 }
+
+export interface GoogleLoginPayload {
+  idToken: string;
+}
