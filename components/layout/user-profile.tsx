@@ -54,8 +54,15 @@ export function UserProfile() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          <div className="flex flex-col gap-1">
+            <span>My Account</span>
 
+            <span className="text-xs font-normal text-muted-foreground">
+              Platform role: {user.role}
+            </span>
+          </div>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem>
