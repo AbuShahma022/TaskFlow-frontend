@@ -31,12 +31,12 @@ const navigation = [
   },
   {
     title: "Projects",
-    url: "/projects",
+    url: "/dashboard/projects",
     icon: FolderKanban,
   },
   {
     title: "Tasks",
-    url: "/tasks",
+    url: "/dashboard/tasks",
     icon: ListTodo,
   },
 ];

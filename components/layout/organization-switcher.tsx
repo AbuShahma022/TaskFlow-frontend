@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react"
+
 import { ChevronsUpDown, Plus, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -11,33 +11,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-import type { OrganizationMembership } from "@/types/organization"
 import { useOrganization } from "@/providers/organization-provider"
 
-interface OrganizationSwitcherProps {
-  organizations: OrganizationMembership[]
-  isLoading?: boolean
-  isError?: boolean
-}
 
-export function OrganizationSwitcher({
-  organizations,
-  isLoading = false,
-  isError = false,
-}: OrganizationSwitcherProps) {
-  const { selectedOrganizationId, setSelectedOrganizationId } =
-    useOrganization()
+
+
+export function OrganizationSwitcher() {
+ const {
+    organizations,
+    isLoading,
+    isError,
+    selectedOrganizationId,
+    setSelectedOrganizationId,
+  } = useOrganization();  
+
 
   const selectedOrganization = organizations.find(
     (membership) => membership.organization.id === selectedOrganizationId
   )
 
-  useEffect(() => {
-    if (!selectedOrganizationId && organizations.length > 0) {
-      setSelectedOrganizationId(organizations[0].organization.id)
-    }
-  }, [organizations, selectedOrganizationId, setSelectedOrganizationId])
 
   return (
     <DropdownMenu>
