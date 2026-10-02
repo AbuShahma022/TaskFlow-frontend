@@ -1,26 +1,22 @@
 import api from "@/lib/axios";
-import type { AuthUser } from "@/store/features/auth/authSlice";
-import { API_ENDPOINTS } from "@/constants/api";
-
-
-interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: {
-    user: AuthUser;
-  };
-}
+import type { LoginPayload, LoginResponse, MeResponse } from "@/types/auth";
 
 export const authService = {
-  getMe: async (): Promise<AuthUser> => {
-    const response = await api.get<AuthResponse>(
-      API_ENDPOINTS.AUTH.ME
+  getMe: async (): Promise<MeResponse> => {
+    const response = await api.get<MeResponse>("/auth/me");
+
+    return response.data;
+  },
+
+    login: async (
+    payload: LoginPayload,
+  ): Promise<LoginResponse> => {
+    const response = await api.post<LoginResponse>(
+      "/auth/login",
+      payload,
     );
 
-    return response.data.data.user;
+    return response.data;
   },
 
-  logout: async (): Promise<void> => {
-    await api.post(API_ENDPOINTS.AUTH.LOGOUT);
-  },
 };

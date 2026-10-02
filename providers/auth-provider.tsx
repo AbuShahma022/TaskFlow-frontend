@@ -1,36 +1,52 @@
 "use client";
 
-import { useEffect } from "react";
-import { authService } from "@/services/auth.service";
-import {
-  clearUser,
-  setAuthLoading,
-  setUser,
-} from "@/store/features/auth/authSlice";
-import { useAppDispatch } from "@/store/hooks";
+import { createContext, useContext } from "react";
+import { useMe } from "@/hooks/queries/use-me";
+import type { AuthUser } from "@/types/auth";
+import { PageLoader } from "@/components/shared/page-loader";
+
+interface AuthContextValue {
+  user: AuthUser | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+}
+
+const AuthContext = createContext<AuthContextValue | undefined>(
+  undefined,
+);
 
 export function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const dispatch = useAppDispatch();
+  const { data, isLoading } = useMe();
 
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        dispatch(setAuthLoading(true));
+  const user = data?.data ?? null;
 
-        const user = await authService.getMe();
+ if (isLoading) {
+  return <PageLoader />;
+}
 
-        dispatch(setUser(user));
-      } catch {
-        dispatch(clearUser());
-      }
-    };
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        isAuthenticated: !!user,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
-    initializeAuth();
-  }, [dispatch]);
+export function useAuth() {
+  const context = useContext(AuthContext);
 
-  return children;
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+
+  return context;
 }
