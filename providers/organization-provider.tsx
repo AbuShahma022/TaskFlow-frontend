@@ -17,6 +17,7 @@ interface OrganizationContextValue {
   isError: boolean;
   selectedOrganizationId: string | null;
   setSelectedOrganizationId: (organizationId: string | null) => void;
+  selectedMembership?: OrganizationMembership;
 }
 
 const OrganizationContext =
@@ -35,6 +36,10 @@ export function OrganizationProvider({
   ] = useState<string | null>(null);
 
   const organizations = data?.data ?? [];
+  const selectedMembership = organizations.find(
+  (membership) =>
+    membership.organization.id === selectedOrganizationId,
+);
 
   useEffect(() => {
     if (
@@ -58,6 +63,7 @@ export function OrganizationProvider({
     isError,
     selectedOrganizationId,
     setSelectedOrganizationId,
+    selectedMembership,
   }}
 >
       {children}

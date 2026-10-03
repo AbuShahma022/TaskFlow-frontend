@@ -31,11 +31,11 @@ export default function Providers({
     >
       <StoreProvider>
         <QueryClientProvider client={queryClient}>
-           <OrganizationProvider>
           <AuthProvider>
+           <OrganizationProvider>
           {children}
-        </AuthProvider>
          </OrganizationProvider>
+        </AuthProvider>
           <Toaster richColors position="top-right" />
         </QueryClientProvider>
       </StoreProvider>

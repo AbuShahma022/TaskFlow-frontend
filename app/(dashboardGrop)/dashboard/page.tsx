@@ -1,8 +1,8 @@
-import { AppLayout } from "@/components/layout/app-layout";
+
 
 export default function DashboardPage() {
   return (
-    <AppLayout>
+    
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">
           Dashboard
@@ -12,6 +12,6 @@ export default function DashboardPage() {
           Welcome to TaskFlow.
         </p>
       </div>
-    </AppLayout>
+    
   );
 }
