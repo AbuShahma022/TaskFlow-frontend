@@ -13,3 +13,24 @@ export const createSprintSchema = z.object({
 export type CreateSprintFormValues = z.infer<
   typeof createSprintSchema
 >;
+
+export const updateSprintSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Sprint name must be at least 2 characters")
+    .optional(),
+
+  goal: z
+    .string()
+    .trim()
+    .optional(),
+
+  startDate: z
+    .string()
+    .optional(),
+
+  endDate: z
+    .string()
+    .optional(),
+});

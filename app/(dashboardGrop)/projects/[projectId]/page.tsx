@@ -14,6 +14,9 @@ import { Input } from "@/components/ui/input";
 import type { IProjectMember } from "@/types/project";
 import { RemoveProjectMemberDialog } from "@/components/projects/remove-project-member-dialog";
 import { CreateSprintDialog } from "@/components/projects/create-sprint-dialog";
+import { useSprints } from "@/hooks/queries/use-sprints";
+import { EditSprintDialog } from "@/components/projects/edit-sprint-dialog";
+import { ArchiveSprintDialog } from "@/components/projects/archive-sprint-dialog";
 
 
 export default function ProjectPage() {
@@ -56,6 +59,25 @@ const memberPagination = membersData?.data.pagination;
  const project = data?.data;
 
 const isManager = selectedMembership?.role === "MANAGER";
+
+
+const {
+  data: sprintsData,
+  isLoading: sprintsLoading,
+  isError: sprintsError,
+} = useSprints(
+  selectedOrganizationId ?? undefined,
+  projectId,
+  {
+    page: 1,
+    limit: 10,
+  },
+);
+
+const sprints = sprintsData?.data.data ?? [];
+const sprintPagination = sprintsData?.data.pagination;
+
+
 
   if (isLoading) {
     return (
@@ -241,7 +263,7 @@ const isManager = selectedMembership?.role === "MANAGER";
         />
       </section>
       {/* Sprints */}
-      <section className="space-y-3">
+      <section className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold">Sprints</h2>
@@ -254,27 +276,71 @@ const isManager = selectedMembership?.role === "MANAGER";
           {isManager && <CreateSprintDialog projectId={projectId} />}
         </div>
 
-        <div className="rounded-lg border">
-          {project.sprints.length === 0 ? (
-            <p className="p-6 text-sm text-muted-foreground">No sprints yet.</p>
-          ) : (
-            project.sprints.map((sprint) => (
-              <div key={sprint.id} className="border-b p-4 last:border-b-0">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="font-medium">{sprint.name}</h3>
+        {sprintsLoading && (
+          <div className="rounded-lg border p-6 text-center text-sm text-muted-foreground">
+            Loading sprints...
+          </div>
+        )}
 
-                  <span className="rounded-full bg-muted px-2.5 py-1 text-xs">
-                    {sprint.status}
-                  </span>
+        {sprintsError && (
+          <div className="rounded-lg border border-destructive/30 p-6 text-center text-sm text-destructive">
+            Failed to load sprints.
+          </div>
+        )}
+
+        {!sprintsLoading && !sprintsError && sprints.length === 0 && (
+          <div className="rounded-lg border p-6 text-center text-sm text-muted-foreground">
+            No sprints yet.
+          </div>
+        )}
+
+        {!sprintsLoading && !sprintsError && sprints.length > 0 && (
+          <div className="rounded-lg border">
+            {sprints.map((sprint) => (
+              <div
+                key={sprint.id}
+                className="flex flex-col gap-4 border-b p-4 last:border-b-0 sm:flex-row sm:items-start sm:justify-between"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-medium">{sprint.name}</h3>
+
+                    <span className="rounded-full bg-muted px-2.5 py-1 text-xs">
+                      {sprint.status}
+                    </span>
+                  </div>
+
+                  {sprint.goal && (
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {sprint.goal}
+                    </p>
+                  )}
+
+                  <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                    <span>
+                      Start: {new Date(sprint.startDate).toLocaleDateString()}
+                    </span>
+
+                    <span>
+                      End: {new Date(sprint.endDate).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
 
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {sprint.goal}
-                </p>
+                {isManager && sprint.status !== "ARCHIVED" && (
+                  <div className="flex shrink-0 gap-2">
+                    <EditSprintDialog projectId={projectId} sprint={sprint} />
+
+                    <ArchiveSprintDialog
+                      projectId={projectId}
+                      sprint={sprint}
+                    />
+                  </div>
+                )}
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   )

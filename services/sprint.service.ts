@@ -5,6 +5,8 @@ import type {
   ICreateSprintResponse,
   IGetSprintsQuery,
   IGetSprintsResponse,
+  ISprintResponse,
+  IUpdateSprint,
 } from "@/types/sprint";
 
 export const sprintService = {
@@ -35,4 +37,30 @@ export const sprintService = {
 
     return response.data;
   },
+
+  updateSprint: async (
+  organizationId: string,
+  projectId: string,
+  sprintId: string,
+  data: IUpdateSprint,
+) => {
+  const response = await api.patch(
+    `/organizations/${organizationId}/projects/${projectId}/sprints/${sprintId}`,
+    data,
+  );
+
+  return response.data;
+},
+archiveSprint: async (
+  organizationId: string,
+  projectId: string,
+  sprintId: string,
+): Promise<ISprintResponse> => {
+  const response = await api.patch(
+    `/organizations/${organizationId}/projects/${projectId}/sprints/${sprintId}/archive`,
+  );
+
+  return response.data;
+},
+
 };

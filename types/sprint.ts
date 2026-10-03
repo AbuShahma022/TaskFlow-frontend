@@ -58,3 +58,9 @@ export interface IGetSprintsResponse {
     pagination: ISprintPagination;
   };
 }
+
+export interface ISprintResponse {
+  success: boolean;
+  message: string;
+  data: ISprint;
+}

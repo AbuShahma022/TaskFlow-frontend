@@ -6,7 +6,9 @@ export const QUERY_KEYS = {
   ORGANIZATIONS: {
     ALL: ["organizations"] as const,
     LIST: ["organizations", "list"] as const,
-    MEMBERS: (organizationId: string) => ["organizations", "members", organizationId] as const,
+
+    MEMBERS: (organizationId: string) =>
+      ["organizations", "members", organizationId] as const,
   },
 
   PROJECTS: {
@@ -15,24 +17,39 @@ export const QUERY_KEYS = {
     DETAIL: (projectId: string) =>
       ["projects", "detail", projectId] as const,
 
-      MEMBERS: (
-    organizationId: string,
-    projectId: string,
-  ) =>
-    [
-      "projects",
-      "members",
-      organizationId,
-      projectId,
-    ] as const,
+    MEMBERS: (
+      organizationId: string,
+      projectId: string,
+    ) =>
+      [
+        "projects",
+        "members",
+        organizationId,
+        projectId,
+      ] as const,
   },
 
-    SPRINTS: {
-    LIST: (projectId: string) =>
-      ["sprints", projectId] as const,
-    DETAIL: (sprintId: string) =>
-      ["sprint", sprintId] as const,
+  SPRINTS: {
+    LIST: (
+      organizationId: string,
+      projectId: string,
+    ) =>
+      [
+        "sprints",
+        organizationId,
+        projectId,
+      ] as const,
+
+    DETAIL: (
+      organizationId: string,
+      projectId: string,
+      sprintId: string,
+    ) =>
+      [
+        "sprint",
+        organizationId,
+        projectId,
+        sprintId,
+      ] as const,
   },
-
-
 } as const;
