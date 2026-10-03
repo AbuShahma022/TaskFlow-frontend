@@ -36,3 +36,45 @@ export interface GetOrganizationsParams {
   limit?: number;
   search?: string;
 }
+
+// Organization members
+export interface OrganizationMember {
+  id: string;
+  organizationId: string;
+  userId: string;
+  role: OrganizationRole;
+  joinedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+    role: string;
+    emailVerified: boolean;
+  };
+}
+
+export interface OrganizationMemberMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface OrganizationMembersResponse {
+  success: boolean;
+  message: string;
+  data: {
+    meta: OrganizationMemberMeta;
+    data: OrganizationMember[];
+  };
+}
+
+export interface GetOrganizationMembersParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  role?: OrganizationRole;
+}

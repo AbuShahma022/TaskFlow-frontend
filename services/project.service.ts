@@ -6,6 +6,10 @@ import type {
   ICreateProject,
   IProjectResponse,
   IUpdateProject,
+  IAddProjectMember,
+  IProjectMemberResponse,
+  IGetProjectMembersQuery,
+  GetProjectMembersResponse,
 } from "@/types/project";
 
 export const projectService = {
@@ -58,4 +62,45 @@ export const projectService = {
 
   return response.data;
 },
+
+  addProjectMember: async (
+    organizationId: string,
+    projectId: string,
+    data: IAddProjectMember,
+  ): Promise<IProjectMemberResponse> => {
+    const response = await api.post(
+      `/organizations/${organizationId}/projects/${projectId}/members`,
+      data,
+    );
+
+    return response.data;
+  },
+
+  getProjectMembers: async (
+  organizationId: string,
+  projectId: string,
+  params?: IGetProjectMembersQuery,
+): Promise<GetProjectMembersResponse> => {
+  const response = await api.get(
+    `/organizations/${organizationId}/projects/${projectId}/members`,
+    {
+      params,
+    },
+  );
+
+  return response.data;
+},
+
+removeProjectMember: async (
+  organizationId: string,
+  projectId: string,
+  memberId: string,
+) => {
+  const response = await api.delete(
+    `/organizations/${organizationId}/projects/${projectId}/members/${memberId}`,
+  );
+
+  return response.data;
+},
+
 };

@@ -105,3 +105,55 @@ export type IEditableProject = Pick<
   IProjectDetails,
   "id" | "name" | "description"
 >;
+
+export interface IAddProjectMember {
+  userId: string;
+}
+
+export interface IProjectMemberResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: string;
+    projectId: string;
+    userId: string;
+    joinedAt: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+export interface IProjectMember {
+  id: string;
+  projectId: string;
+  userId: string;
+  joinedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+  };
+}
+
+export interface IGetProjectMembersQuery {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export interface GetProjectMembersResponse {
+  success: boolean;
+  message: string;
+  data: {
+    data: IProjectMember[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+    };
+  };
+}
