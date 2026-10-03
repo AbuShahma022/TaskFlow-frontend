@@ -1,9 +1,11 @@
 import api from "@/lib/axios";
+
 import type {
   GetProjectsResponse,
   IGetProjectsQuery,
-  ICreateProject
-
+  ICreateProject,
+  IProjectResponse,
+  IUpdateProject,
 } from "@/types/project";
 
 export const projectService = {
@@ -21,13 +23,39 @@ export const projectService = {
     return response.data;
   },
 
-  createProject(
+  createProject: async (
+    organizationId: string,
+    data: ICreateProject,
+  ) => {
+    const response = await api.post(
+      `/organizations/${organizationId}/projects`,
+      data,
+    );
+
+    return response.data;
+  },
+
+  getProject: async (
+    organizationId: string,
+    projectId: string,
+  ): Promise<IProjectResponse> => {
+    const response = await api.get<IProjectResponse>(
+      `/organizations/${organizationId}/projects/${projectId}`,
+    );
+
+    return response.data;
+  },
+
+  updateProject: async (
   organizationId: string,
-  data: ICreateProject,
-) {
-  return api.post(
-    `/organizations/${organizationId}/projects`,
+  projectId: string,
+  data: IUpdateProject,
+) => {
+  const response = await api.patch(
+    `/organizations/${organizationId}/projects/${projectId}`,
     data,
   );
-}
+
+  return response.data;
+},
 };

@@ -9,5 +9,6 @@ export const QUERY_KEYS = {
   },
   PROJECTS: {
   LIST: "projects",
+   DETAIL: "project",
 },
 } as const;

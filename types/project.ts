@@ -43,3 +43,65 @@ export interface ICreateProject {
   name: string;
   description?: string;
 }
+
+export interface IProjectMember {
+  id: string;
+  projectId: string;
+  userId: string;
+  joinedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+  };
+}
+
+export interface IProjectSprint {
+  id: string;
+  projectId: string;
+  name: string;
+  goal: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export interface IProjectDetails {
+  id: string;
+  organizationId: string;
+  name: string;
+  description: string;
+  status: "ACTIVE" | "ARCHIVED";
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  members: IProjectMember[];
+  sprints: IProjectSprint[];
+  _count: {
+    members: number;
+    tasks: number;
+    sprints: number;
+  };
+}
+
+export interface IProjectResponse {
+  success: boolean;
+  message: string;
+  data: IProjectDetails;
+}
+
+export interface IUpdateProject {
+   name?: string;
+  description?: string;
+}
+
+export type IEditableProject = Pick<
+  IProjectDetails,
+  "id" | "name" | "description"
+>;

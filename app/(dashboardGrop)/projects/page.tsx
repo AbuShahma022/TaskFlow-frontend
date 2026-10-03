@@ -14,6 +14,9 @@ import {
 import { useDebounce } from "@/hooks/use-debounce"
 import { useOrganization } from "@/providers/organization-provider"
 import { CreateProjectDialog } from "@/components/projects/create-project-dialog"
+import Link from "next/link"
+import { EditProjectDialog } from "@/components/projects/edit-project-dialog"
+
 
 
 export default function ProjectsPage() {
@@ -35,66 +38,55 @@ export default function ProjectsPage() {
 
 
 const canCreateProject = selectedMembership?.role === "MANAGER";
+const isManager = selectedMembership?.role === "MANAGER";
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-  <div className="min-w-0">
-    <h1 className="text-2xl font-semibold tracking-tight">
-      Projects
-    </h1>
+        <div className="min-w-0">
+          <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
 
-    <p className="text-sm text-muted-foreground">
-      Manage your organization projects.
-    </p>
-  </div>
+          <p className="text-sm text-muted-foreground">
+            Manage your organization projects.
+          </p>
+        </div>
 
-  {canCreateProject && (
-    <CreateProjectDialog />
-  )}
-</div>
+        {canCreateProject && <CreateProjectDialog />}
+      </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-  <Input
-    placeholder="Search projects..."
-    value={search}
-    onChange={(event) => {
-      setSearch(event.target.value);
-    }}
-    className="w-full sm:max-w-sm"
-  />
+        <Input
+          placeholder="Search projects..."
+          value={search}
+          onChange={(event) => {
+            setSearch(event.target.value)
+          }}
+          className="w-full sm:max-w-sm"
+        />
 
-  <Select
-    value={status ?? "ALL"}
-    onValueChange={(value) => {
-      setPage(1);
+        <Select
+          value={status ?? "ALL"}
+          onValueChange={(value) => {
+            setPage(1)
 
-      setStatus(
-        value === "ALL"
-          ? undefined
-          : (value as "ACTIVE" | "ARCHIVED"),
-      );
-    }}
-  >
-    <SelectTrigger className="w-full sm:w-45">
-      <SelectValue placeholder="Filter by status" />
-    </SelectTrigger>
+            setStatus(
+              value === "ALL" ? undefined : (value as "ACTIVE" | "ARCHIVED")
+            )
+          }}
+        >
+          <SelectTrigger className="w-full sm:w-45">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
 
-    <SelectContent>
-      <SelectItem value="ALL">
-        All statuses
-      </SelectItem>
+          <SelectContent>
+            <SelectItem value="ALL">All statuses</SelectItem>
 
-      <SelectItem value="ACTIVE">
-        Active
-      </SelectItem>
+            <SelectItem value="ACTIVE">Active</SelectItem>
 
-      <SelectItem value="ARCHIVED">
-        Archived
-      </SelectItem>
-    </SelectContent>
-  </Select>
-</div>
+            <SelectItem value="ARCHIVED">Archived</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       {/* Loading */}
       {isLoading && (
         <div className="rounded-lg border p-8 text-center text-sm text-muted-foreground">
@@ -129,35 +121,44 @@ const canCreateProject = selectedMembership?.role === "MANAGER";
               className="rounded-lg border bg-card p-5 shadow-sm transition hover:shadow-md"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
+                <Link
+                  href={`/projects/${project.id}`}
+                  className="min-w-0 flex-1"
+                >
                   <h2 className="truncate font-semibold">{project.name}</h2>
 
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                     {project.description}
                   </p>
-                </div>
+                </Link>
 
-                <span className="shrink-0 rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                  {project.status}
-                </span>
-              </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                    {project.status}
+                  </span>
 
-              <div className="mt-5 grid grid-cols-3 gap-2 border-t pt-4">
-                <div>
-                  <p className="text-xs text-muted-foreground">Members</p>
-                  <p className="mt-1 font-medium">{project._count.members}</p>
-                </div>
-
-                <div>
-                  <p className="text-xs text-muted-foreground">Tasks</p>
-                  <p className="mt-1 font-medium">{project._count.tasks}</p>
-                </div>
-
-                <div>
-                  <p className="text-xs text-muted-foreground">Sprints</p>
-                  <p className="mt-1 font-medium">{project._count.sprints}</p>
+                  {isManager && <EditProjectDialog project={project} />}
                 </div>
               </div>
+
+              <Link href={`/projects/${project.id}`} className="mt-5 block">
+                <div className="grid grid-cols-3 gap-2 border-t pt-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Members</p>
+                    <p className="mt-1 font-medium">{project._count.members}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-muted-foreground">Tasks</p>
+                    <p className="mt-1 font-medium">{project._count.tasks}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-muted-foreground">Sprints</p>
+                    <p className="mt-1 font-medium">{project._count.sprints}</p>
+                  </div>
+                </div>
+              </Link>
             </div>
           ))}
         </div>

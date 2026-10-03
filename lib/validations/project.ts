@@ -14,3 +14,12 @@ export const createProjectSchema = z.object({
 
 export type CreateProjectFormValues =
   z.infer<typeof createProjectSchema>;
+
+  export const updateProjectSchema = z.object({
+  name: z.string().trim().min(2).optional(),
+  description: z.string().trim().optional(),
+});
+
+export type UpdateProjectFormValues = z.infer<
+  typeof updateProjectSchema
+>;
