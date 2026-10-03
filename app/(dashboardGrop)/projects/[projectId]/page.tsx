@@ -13,6 +13,7 @@ import { useProjectMembers } from "@/hooks/queries/use-project-members";
 import { Input } from "@/components/ui/input";
 import type { IProjectMember } from "@/types/project";
 import { RemoveProjectMemberDialog } from "@/components/projects/remove-project-member-dialog";
+import { CreateSprintDialog } from "@/components/projects/create-sprint-dialog";
 
 
 export default function ProjectPage() {
@@ -241,12 +242,16 @@ const isManager = selectedMembership?.role === "MANAGER";
       </section>
       {/* Sprints */}
       <section className="space-y-3">
-        <div>
-          <h2 className="text-lg font-semibold">Sprints</h2>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold">Sprints</h2>
 
-          <p className="text-sm text-muted-foreground">
-            Sprints belonging to this project.
-          </p>
+            <p className="text-sm text-muted-foreground">
+              Sprints belonging to this project.
+            </p>
+          </div>
+
+          {isManager && <CreateSprintDialog projectId={projectId} />}
         </div>
 
         <div className="rounded-lg border">

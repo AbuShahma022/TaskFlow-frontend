@@ -27,5 +27,12 @@ export const QUERY_KEYS = {
     ] as const,
   },
 
+    SPRINTS: {
+    LIST: (projectId: string) =>
+      ["sprints", projectId] as const,
+    DETAIL: (sprintId: string) =>
+      ["sprint", sprintId] as const,
+  },
+
 
 } as const;
