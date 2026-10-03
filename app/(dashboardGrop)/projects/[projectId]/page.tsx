@@ -17,6 +17,8 @@ import { CreateSprintDialog } from "@/components/projects/create-sprint-dialog";
 import { useSprints } from "@/hooks/queries/use-sprints";
 import { EditSprintDialog } from "@/components/projects/edit-sprint-dialog";
 import { ArchiveSprintDialog } from "@/components/projects/archive-sprint-dialog";
+import { StartSprintDialog } from "@/components/projects/start-sprint-dialog";
+import { CompleteSprintDialog } from "@/components/projects/complete-sprint-dialog";
 
 
 export default function ProjectPage() {
@@ -327,14 +329,35 @@ const sprintPagination = sprintsData?.data.pagination;
                   </div>
                 </div>
 
-                {isManager && sprint.status !== "ARCHIVED" && (
-                  <div className="flex shrink-0 gap-2">
-                    <EditSprintDialog projectId={projectId} sprint={sprint} />
+                {isManager && (
+                  <div className="flex flex-wrap gap-2">
+                    {sprint.status === "PLANNED" && (
+                      <StartSprintDialog
+                        projectId={projectId}
+                        sprint={sprint}
+                      />
+                    )}
 
-                    <ArchiveSprintDialog
-                      projectId={projectId}
-                      sprint={sprint}
-                    />
+                    {sprint.status === "ACTIVE" && (
+                      <CompleteSprintDialog
+                        projectId={projectId}
+                        sprint={sprint}
+                      />
+                    )}
+
+                    {sprint.status !== "ARCHIVED" && (
+                      <>
+                        <EditSprintDialog
+                          projectId={projectId}
+                          sprint={sprint}
+                        />
+
+                        <ArchiveSprintDialog
+                          projectId={projectId}
+                          sprint={sprint}
+                        />
+                      </>
+                    )}
                   </div>
                 )}
               </div>

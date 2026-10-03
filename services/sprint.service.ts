@@ -63,4 +63,28 @@ archiveSprint: async (
   return response.data;
 },
 
+startSprint: async (
+  organizationId: string,
+  projectId: string,
+  sprintId: string,
+): Promise<ISprintResponse> => {
+  const response = await api.patch<ISprintResponse>(
+    `/organizations/${organizationId}/projects/${projectId}/sprints/${sprintId}/start`,
+  );
+
+  return response.data;
+},
+
+completeSprint: async (
+  organizationId: string,
+  projectId: string,
+  sprintId: string,
+): Promise<ISprintResponse> => {
+  const response = await api.patch<ISprintResponse>(
+    `/organizations/${organizationId}/projects/${projectId}/sprints/${sprintId}/complete`,
+  );
+
+  return response.data;
+},
+
 };
