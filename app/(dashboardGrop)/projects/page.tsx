@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select"
 import { useDebounce } from "@/hooks/use-debounce"
 import { useOrganization } from "@/providers/organization-provider"
+import { CreateProjectDialog } from "@/components/projects/create-project-dialog"
 
 
 export default function ProjectsPage() {
@@ -37,57 +38,63 @@ const canCreateProject = selectedMembership?.role === "MANAGER";
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div className="min-w-0">
+    <h1 className="text-2xl font-semibold tracking-tight">
+      Projects
+    </h1>
 
-          <p className="text-sm text-muted-foreground">
-            Manage your organization projects.
-          </p>
-        </div>
+    <p className="text-sm text-muted-foreground">
+      Manage your organization projects.
+    </p>
+  </div>
 
-        {canCreateProject && (
-          <button
-            type="button"
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Create Project
-          </button>
-        )}
-      </div>
+  {canCreateProject && (
+    <CreateProjectDialog />
+  )}
+</div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Input
-          placeholder="Search projects..."
-          value={search}
-          onChange={(event) => {
-            setSearch(event.target.value)
-          }}
-          className="sm:max-w-sm"
-        />
+  <Input
+    placeholder="Search projects..."
+    value={search}
+    onChange={(event) => {
+      setSearch(event.target.value);
+    }}
+    className="w-full sm:max-w-sm"
+  />
 
-        <Select
-          value={status ?? "ALL"}
-          onValueChange={(value) => {
-            setStatus(
-              value === "ALL" ? undefined : (value as "ACTIVE" | "ARCHIVED")
-            )
-          }}
-        >
-          <SelectTrigger className="sm:w-45">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
+  <Select
+    value={status ?? "ALL"}
+    onValueChange={(value) => {
+      setPage(1);
 
-          <SelectContent>
-            <SelectItem value="ALL">All statuses</SelectItem>
+      setStatus(
+        value === "ALL"
+          ? undefined
+          : (value as "ACTIVE" | "ARCHIVED"),
+      );
+    }}
+  >
+    <SelectTrigger className="w-full sm:w-45">
+      <SelectValue placeholder="Filter by status" />
+    </SelectTrigger>
 
-            <SelectItem value="ACTIVE">Active</SelectItem>
+    <SelectContent>
+      <SelectItem value="ALL">
+        All statuses
+      </SelectItem>
 
-            <SelectItem value="ARCHIVED">Archived</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <SelectItem value="ACTIVE">
+        Active
+      </SelectItem>
 
+      <SelectItem value="ARCHIVED">
+        Archived
+      </SelectItem>
+    </SelectContent>
+  </Select>
+</div>
       {/* Loading */}
       {isLoading && (
         <div className="rounded-lg border p-8 text-center text-sm text-muted-foreground">

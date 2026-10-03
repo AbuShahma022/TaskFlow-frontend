@@ -38,3 +38,8 @@ export interface GetProjectsResponse {
     pagination: ProjectPagination;
   };
 }
+
+export interface ICreateProject {
+  name: string;
+  description?: string;
+}

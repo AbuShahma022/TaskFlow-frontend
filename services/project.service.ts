@@ -2,6 +2,8 @@ import api from "@/lib/axios";
 import type {
   GetProjectsResponse,
   IGetProjectsQuery,
+  ICreateProject
+
 } from "@/types/project";
 
 export const projectService = {
@@ -18,4 +20,14 @@ export const projectService = {
 
     return response.data;
   },
+
+  createProject(
+  organizationId: string,
+  data: ICreateProject,
+) {
+  return api.post(
+    `/organizations/${organizationId}/projects`,
+    data,
+  );
+}
 };
