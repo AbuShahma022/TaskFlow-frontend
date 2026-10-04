@@ -5,6 +5,7 @@ import {
   Building2,
   FolderKanban,
   ListTodo,
+   Activity,
 } from "lucide-react";
 
 import {
@@ -17,6 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useOrganization } from "@/providers/organization-provider";
 
 const navigation = [
   {
@@ -39,9 +41,19 @@ const navigation = [
     url: "/tasks",
     icon: ListTodo,
   },
+
+    {
+    title: "Activity Logs",
+    url: "/activity-logs",
+    icon: Activity,
+      managerOnly: true,
+  },
 ];
 
 export function AppSidebar() {
+    const { selectedMembership } = useOrganization();
+
+  const isManager = selectedMembership?.role === "MANAGER";
   return (
     <Sidebar>
       <SidebarContent>
@@ -50,20 +62,22 @@ export function AppSidebar() {
 
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigation.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {navigation
+                .filter((item) => !item.managerOnly || isManager)
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <a href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  );
+  )
 }

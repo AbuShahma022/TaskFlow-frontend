@@ -58,4 +58,9 @@ TASKS: {
   LIST: (organizationId: string, projectId: string) =>
     ["tasks", organizationId, projectId] as const,
 },
+
+ACTIVITY_LOGS: {
+  LIST: (organizationId: string) =>
+    ["activity-logs", organizationId] as const,
+},
 } as const;
