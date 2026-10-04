@@ -63,4 +63,15 @@ ACTIVITY_LOGS: {
   LIST: (organizationId: string) =>
     ["activity-logs", organizationId] as const,
 },
+
+SUBSCRIPTIONS: {
+  DETAIL: (organizationId: string) => ["subscriptions", organizationId],
+},
+
+PAYMENTS: {
+  LIST: (organizationId: string) => [
+    "payments",
+    organizationId,
+  ],
+},
 } as const;

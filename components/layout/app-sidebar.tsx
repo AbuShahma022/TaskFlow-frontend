@@ -6,6 +6,7 @@ import {
   FolderKanban,
   ListTodo,
    Activity,
+   CreditCard
 } from "lucide-react";
 
 import {
@@ -48,6 +49,13 @@ const navigation = [
     icon: Activity,
       managerOnly: true,
   },
+
+  {
+  title: "Subscription",
+  url: "/subscription",
+  icon: CreditCard,
+  managerOnly: true,
+},
 ];
 
 export function AppSidebar() {
