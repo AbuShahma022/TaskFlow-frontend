@@ -24,6 +24,26 @@ export interface ITask {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
+
+  assignedTo: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+  } | null;
+
+  createdBy: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+  };
+
+  sprint: {
+    id: string;
+    name: string;
+    status: string;
+  };
 }
 
 export interface ICreateTask {

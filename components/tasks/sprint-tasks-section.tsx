@@ -5,6 +5,7 @@ import CreateTaskDialog from "@/components/tasks/create-task-dialog";
 import EditTaskDialog from "@/components/tasks/edit-task-dialog";
 import { useUpdateTaskStatus } from "@/hooks/mutations/use-update-task-status";
 import type { TaskStatus } from "@/types/task";
+import AssignTaskDialog from "@/components/tasks/assign-task-dialog";
 import { toast } from "sonner";
 interface SprintTasksSectionProps {
   organizationId: string;
@@ -114,6 +115,13 @@ export default function SprintTasksSection({
                       {task.description}
                     </p>
                   )}
+
+                  <div className="text-xs text-muted-foreground">
+                    Assigned to:{" "}
+                    <span className="font-medium text-foreground">
+                      {task.assignedTo?.name ?? "Unassigned"}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
@@ -163,11 +171,19 @@ export default function SprintTasksSection({
                   )}
 
                   {isManager && (
-                    <EditTaskDialog
-                      organizationId={organizationId}
-                      projectId={projectId}
-                      task={task}
-                    />
+                    <>
+                      <AssignTaskDialog
+                        organizationId={organizationId}
+                        projectId={projectId}
+                        task={task}
+                      />
+
+                      <EditTaskDialog
+                        organizationId={organizationId}
+                        projectId={projectId}
+                        task={task}
+                      />
+                    </>
                   )}
                 </div>
               </div>
