@@ -1,3 +1,4 @@
+
 export const QUERY_KEYS = {
   AUTH: {
     ME: ["auth", "me"] as const,
@@ -52,4 +53,9 @@ export const QUERY_KEYS = {
         sprintId,
       ] as const,
   },
+
+TASKS: {
+  LIST: (organizationId: string, projectId: string) =>
+    ["tasks", organizationId, projectId] as const,
+},
 } as const;

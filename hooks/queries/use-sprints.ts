@@ -11,7 +11,10 @@ export const useSprints = (
 ) => {
   return useQuery({
     queryKey: [
-      ...QUERY_KEYS.SPRINTS.LIST(projectId ?? ""),
+      ...QUERY_KEYS.SPRINTS.LIST(
+        organizationId ?? "",
+        projectId ?? "",
+      ),
       params,
     ],
 
