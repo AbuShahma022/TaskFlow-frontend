@@ -8,6 +8,10 @@ export const QUERY_KEYS = {
     ALL: ["organizations"] as const,
     LIST: ["organizations", "list"] as const,
 
+      DETAIL: (organizationId: string) =>
+    ["organizations", "detail", organizationId] as const,
+
+
     MEMBERS: (organizationId: string) =>
       ["organizations", "members", organizationId] as const,
   },

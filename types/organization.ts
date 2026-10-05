@@ -78,3 +78,26 @@ export interface GetOrganizationMembersParams {
   search?: string;
   role?: OrganizationRole;
 }
+
+export interface OrganizationResponse {
+  success: boolean;
+  message: string;
+  data: Organization;
+}
+
+export interface CreateOrganizationPayload {
+  name: string;
+  slug: string;
+  description?: string;
+}
+
+export interface CreateOrganizationResponse {
+  success: boolean;
+  message: string;
+  data: {
+    organization: Organization & {
+      deletedAt: string | null;
+    };
+    member: OrganizationMember;
+  };
+}
