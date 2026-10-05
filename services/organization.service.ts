@@ -1,5 +1,7 @@
 import api from "@/lib/axios";
 import type {
+  CreateOrganizationInvitationPayload,
+  CreateOrganizationInvitationResponse,
   CreateOrganizationPayload,
   CreateOrganizationResponse,
   GetOrganizationMembersParams,
@@ -67,6 +69,19 @@ updateOrganization: async (
     `/organizations/${organizationId}`,
     payload,
   );
+
+  return response.data;
+},
+
+createOrganizationInvitation: async (
+  organizationId: string,
+  payload: CreateOrganizationInvitationPayload,
+): Promise<CreateOrganizationInvitationResponse> => {
+  const response =
+    await api.post<CreateOrganizationInvitationResponse>(
+      `/organizations/${organizationId}/invitations`,
+      payload,
+    );
 
   return response.data;
 },

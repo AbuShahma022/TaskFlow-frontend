@@ -112,3 +112,29 @@ export interface UpdateOrganizationResponse {
   message: string;
   data: Organization;
 }
+
+export interface CreateOrganizationInvitationPayload {
+  email: string;
+}
+
+export interface OrganizationInvitation {
+  id: string;
+  status:
+    | "PENDING"
+    | "ACCEPTED"
+    | "REJECTED"
+    | "CANCELLED";
+  createdAt: string;
+  invitedUser: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+  };
+}
+
+export interface CreateOrganizationInvitationResponse {
+  success: boolean;
+  message: string;
+  data: OrganizationInvitation;
+}
