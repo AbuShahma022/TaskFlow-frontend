@@ -6,9 +6,14 @@ export interface AuthUser {
   id: string;
   name: string;
   email: string;
+  avatar: string | null;
   role: PlatformRole;
   status: UserStatus;
   emailVerified: boolean;
+  googleId: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
 }
 
 export interface MeResponse {
@@ -34,4 +39,20 @@ export interface LoginResponse {
 
 export interface GoogleLoginPayload {
   idToken: string;
+}
+
+export interface UpdateProfileResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string | null;
+    role: PlatformRole;
+    status: UserStatus;
+    emailVerified: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
 }

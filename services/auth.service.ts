@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import type { GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse } from "@/types/auth";
+import type { GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, UpdateProfileResponse } from "@/types/auth";
 
 export const authService = {
   getMe: async (): Promise<MeResponse> => {
@@ -32,6 +32,17 @@ export const authService = {
 
 logout: async (): Promise<void> => {
   await api.post("/auth/logout");
+},
+
+updateProfile: async (
+  formData: FormData,
+): Promise<UpdateProfileResponse> => {
+  const response = await api.patch<UpdateProfileResponse>(
+    "/users/me",
+    formData,
+  );
+
+  return response.data;
 },
 
 };

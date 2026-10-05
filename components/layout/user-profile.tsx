@@ -4,6 +4,7 @@ import { User, Settings, LogOut } from "lucide-react";
 
 import { useAuth } from "@/providers/auth-provider";
 import { useLogout } from "@/hooks/mutations/use-logout";
+import { useRouter } from "next/navigation";
 import {
   Avatar,
   AvatarFallback,
@@ -20,6 +21,7 @@ import {
 export function UserProfile() {
   const { user } = useAuth();
   const logoutMutation = useLogout();
+  const router = useRouter();
 
   if (!user) {
     return null;
@@ -65,7 +67,7 @@ export function UserProfile() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/profile")}>
           <User />
           Profile
         </DropdownMenuItem>
