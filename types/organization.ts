@@ -138,3 +138,126 @@ export interface CreateOrganizationInvitationResponse {
   message: string;
   data: OrganizationInvitation;
 }
+
+
+export type OrganizationInvitationStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "CANCELLED";
+
+export interface OrganizationInvitationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface OrganizationInvitationUser {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string | null;
+}
+
+export interface OrganizationInvitationInvitedBy {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string | null;
+}
+
+export interface OrganizationManagerInvitation {
+  id: string;
+  status: OrganizationInvitationStatus;
+  createdAt: string;
+  respondedAt: string | null;
+  invitedUser: OrganizationInvitationUser;
+  invitedBy: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}
+
+export interface OrganizationManagerInvitationsResponse {
+  success: boolean;
+  message: string;
+  meta: OrganizationInvitationMeta;
+  data: OrganizationManagerInvitation[];
+}
+
+export interface MyOrganizationInvitation {
+  id: string;
+  status: OrganizationInvitationStatus;
+  createdAt: string;
+  respondedAt: string | null;
+  organization: {
+    id: string;
+    name: string;
+    slug: string;
+    logo: string | null;
+  };
+  invitedBy: OrganizationInvitationInvitedBy;
+}
+
+export interface MyOrganizationInvitationsResponse {
+  success: boolean;
+  message: string;
+  meta: OrganizationInvitationMeta;
+  data: MyOrganizationInvitation[];
+}
+
+export interface GetOrganizationInvitationsParams {
+  page?: number;
+  limit?: number;
+  status?: OrganizationInvitationStatus;
+}
+
+export type UpdateOrganizationInvitationStatus =
+  | "ACCEPTED"
+  | "REJECTED"
+  | "CANCELLED";
+
+export interface UpdateOrganizationInvitationPayload {
+  status: UpdateOrganizationInvitationStatus;
+}
+
+export interface AcceptedOrganizationInvitationData {
+  invitation: {
+    id: string;
+    organizationId: string;
+    invitedUserId: string;
+    invitedById: string;
+    status: "ACCEPTED";
+    createdAt: string;
+    respondedAt: string;
+  };
+  member: {
+    id: string;
+    organizationId: string;
+    userId: string;
+    role: OrganizationRole;
+    joinedAt: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+export interface RejectedOrganizationInvitationData {
+  id: string;
+  organizationId: string;
+  invitedUserId: string;
+  invitedById: string;
+  status: "REJECTED";
+  createdAt: string;
+  respondedAt: string;
+}
+
+export interface UpdateOrganizationInvitationResponse {
+  success: boolean;
+  message: string;
+  data:
+    | AcceptedOrganizationInvitationData
+    | RejectedOrganizationInvitationData;
+}

@@ -6,7 +6,8 @@ import {
   FolderKanban,
   ListTodo,
    Activity,
-   CreditCard
+   CreditCard,
+   Mail
 } from "lucide-react";
 
 import {
@@ -56,6 +57,12 @@ const navigation = [
   icon: CreditCard,
   managerOnly: true,
 },
+
+{
+  title: "Invitations",
+  url: "/invitations",
+  icon: Mail,
+}
 ];
 
 export function AppSidebar() {

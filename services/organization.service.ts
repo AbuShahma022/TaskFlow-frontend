@@ -10,7 +10,12 @@ import type {
   OrganizationMembersResponse,
   OrganizationResponse,
   UpdateOrganizationPayload,
-  UpdateOrganizationResponse
+  UpdateOrganizationResponse,
+  GetOrganizationInvitationsParams,
+MyOrganizationInvitationsResponse,
+OrganizationManagerInvitationsResponse,
+UpdateOrganizationInvitationPayload,
+UpdateOrganizationInvitationResponse,
 } from "@/types/organization";
 
 export const organizationService = {
@@ -82,6 +87,47 @@ createOrganizationInvitation: async (
       `/organizations/${organizationId}/invitations`,
       payload,
     );
+
+  return response.data;
+},
+
+getOrganizationInvitations: async (
+  organizationId: string,
+  params?: GetOrganizationInvitationsParams,
+): Promise<OrganizationManagerInvitationsResponse> => {
+  const response =
+    await api.get<OrganizationManagerInvitationsResponse>(
+      `/organizations/${organizationId}/invitations`,
+      {
+        params,
+      },
+    );
+
+  return response.data;
+},
+
+getMyOrganizationInvitations: async (
+  params?: GetOrganizationInvitationsParams,
+): Promise<MyOrganizationInvitationsResponse> => {
+  const response =
+    await api.get<MyOrganizationInvitationsResponse>(
+      "/organizations/invitations/me",
+      {
+        params,
+      },
+    );
+
+  return response.data;
+},
+
+updateOrganizationInvitation: async (
+  invitationId: string,
+  payload: UpdateOrganizationInvitationPayload
+): Promise<UpdateOrganizationInvitationResponse> => {
+  const response = await api.patch<UpdateOrganizationInvitationResponse>(
+    `/organizations/invitations/${invitationId}`,
+    payload
+  );
 
   return response.data;
 },
