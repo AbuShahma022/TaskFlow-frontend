@@ -6,7 +6,9 @@ import type {
   GetOrganizationsParams,
   OrganizationListResponse,
   OrganizationMembersResponse,
-  OrganizationResponse
+  OrganizationResponse,
+  UpdateOrganizationPayload,
+  UpdateOrganizationResponse
 } from "@/types/organization";
 
 export const organizationService = {
@@ -51,6 +53,18 @@ createOrganization: async (
 ): Promise<CreateOrganizationResponse> => {
   const response = await api.post<CreateOrganizationResponse>(
     "/organizations",
+    payload,
+  );
+
+  return response.data;
+},
+
+updateOrganization: async (
+  organizationId: string,
+  payload: UpdateOrganizationPayload,
+): Promise<UpdateOrganizationResponse> => {
+  const response = await api.patch<UpdateOrganizationResponse>(
+    `/organizations/${organizationId}`,
     payload,
   );
 

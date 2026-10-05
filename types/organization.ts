@@ -101,3 +101,14 @@ export interface CreateOrganizationResponse {
     member: OrganizationMember;
   };
 }
+
+export interface UpdateOrganizationPayload {
+  name?: string;
+  description?: string;
+}
+
+export interface UpdateOrganizationResponse {
+  success: boolean;
+  message: string;
+  data: Organization;
+}
