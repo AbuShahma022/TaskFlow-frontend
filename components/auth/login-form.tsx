@@ -21,6 +21,24 @@ import { Separator } from "../ui/separator";
 import { GoogleIcon } from "../icons/google-icon";
 
 
+const demoAccounts = [
+  {
+    role: "Admin",
+    email: process.env.NEXT_PUBLIC_DEMO_ADMIN_EMAIL ?? "",
+    password: process.env.NEXT_PUBLIC_DEMO_ADMIN_PASSWORD ?? "",
+  },
+  {
+    role: "Manager",
+    email: process.env.NEXT_PUBLIC_DEMO_MANAGER_EMAIL ?? "",
+    password: process.env.NEXT_PUBLIC_DEMO_MANAGER_PASSWORD ?? "",
+  },
+  {
+    role: "Member",
+    email: process.env.NEXT_PUBLIC_DEMO_MEMBER_EMAIL ?? "",
+    password: process.env.NEXT_PUBLIC_DEMO_MEMBER_PASSWORD ?? "",
+  },
+];
+
 
 export function LoginForm() {
  const loginMutation = useLogin();
@@ -135,6 +153,38 @@ function onSubmit(data: LoginFormValues) {
           </div>
         )}
       </div>
+
+      <div className="space-y-3">
+  <p className="text-sm font-medium">
+    Quick Login
+  </p>
+
+  <div className="grid grid-cols-3 gap-2">
+    {demoAccounts.map((account) => (
+      <Button
+        key={account.role}
+        type="button"
+        variant="outline"
+        disabled={
+          loginMutation.isPending ||
+          !account.email ||
+          !account.password
+        }
+        onClick={() => {
+          form.setValue("email", account.email);
+          form.setValue("password", account.password);
+
+          loginMutation.mutate({
+            email: account.email,
+            password: account.password,
+          });
+        }}
+      >
+        {account.role}
+      </Button>
+    ))}
+  </div>
+</div>
     </form>
   )
 }

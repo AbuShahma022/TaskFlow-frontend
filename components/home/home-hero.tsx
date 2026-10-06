@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden border-b">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,theme(colors.primary.DEFAULT)/12%,transparent_40%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,var(--primary)/12%,transparent_40%)]" />
 
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
         <div className="mx-auto max-w-4xl text-center">
