@@ -14,15 +14,19 @@ export const useLogin = () => {
     mutationFn: (payload: LoginPayload) =>
       authService.login(payload),
 
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.AUTH.ME,
-      });
+onSuccess: async (data) => {
+  await queryClient.invalidateQueries({
+    queryKey: QUERY_KEYS.AUTH.ME,
+  });
 
-      toast.success("Login successful");
+  toast.success("Login successful");
 
-      router.replace("/dashboard");
-    },
+  if (data.data.user.role === "ADMIN") {
+    router.replace("/admin");
+  } else {
+    router.replace("/dashboard");
+  }
+},
 
     onError: (error: any) => {
       const message =
