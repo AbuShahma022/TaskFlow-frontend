@@ -7,7 +7,8 @@ import {
   ListTodo,
    Activity,
    CreditCard,
-   Mail
+   Mail,
+   ShieldCheck
 } from "lucide-react";
 
 import {
@@ -21,8 +22,17 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useOrganization } from "@/providers/organization-provider";
+import { useAuth } from "@/providers/auth-provider";
 
-const navigation = [
+type NavigationItem = {
+  title: string;
+  url: string;
+  icon: React.ComponentType<{ className?: string }>;
+  managerOnly?: boolean;
+  adminOnly?: boolean;
+};
+
+const navigation : NavigationItem[] = [
   {
     title: "Dashboard",
     url: "/dashboard",
@@ -62,13 +72,22 @@ const navigation = [
   title: "Invitations",
   url: "/invitations",
   icon: Mail,
-}
+},
+
+{
+  title: "Admin Dashboard",
+  url: "/admin",
+  icon: ShieldCheck,
+  adminOnly: true,
+},
 ];
 
 export function AppSidebar() {
     const { selectedMembership } = useOrganization();
+    const { user } = useAuth();
 
   const isManager = selectedMembership?.role === "MANAGER";
+  const isAdmin = user?.role === "ADMIN";
   return (
     <Sidebar>
       <SidebarContent>
@@ -78,7 +97,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navigation
-                .filter((item) => !item.managerOnly || isManager)
+                .filter(
+                  (item) =>
+                    (!item.managerOnly || isManager) &&
+                    (!item.adminOnly || isAdmin)
+                )
                 .map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
