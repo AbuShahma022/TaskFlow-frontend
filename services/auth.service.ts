@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import type { ChangePasswordPayload, ChangePasswordResponse, GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, RegisterPayload, RegisterResponse, SendVerificationOtpResponse, UpdateProfileResponse, VerifyEmailPayload, VerifyEmailResponse } from "@/types/auth";
+import type { ChangePasswordPayload, ChangePasswordResponse, ForgotPasswordPayload, ForgotPasswordResponse, GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, RegisterPayload, RegisterResponse, ResetPasswordPayload, ResetPasswordResponse, SendVerificationOtpResponse, UpdateProfileResponse, VerifyEmailPayload, VerifyEmailResponse, VerifyResetOtpPayload, VerifyResetOtpResponse } from "@/types/auth";
 
 export const authService = {
   getMe: async (): Promise<MeResponse> => {
@@ -80,6 +80,39 @@ verifyEmail: async (
 ): Promise<VerifyEmailResponse> => {
   const response = await api.post<VerifyEmailResponse>(
     "/auth/verify-email",
+    payload,
+  );
+
+  return response.data;
+},
+
+forgotPassword: async (
+  payload: ForgotPasswordPayload,
+): Promise<ForgotPasswordResponse> => {
+  const response = await api.post<ForgotPasswordResponse>(
+    "/auth/forgot-password",
+    payload,
+  );
+
+  return response.data;
+},
+
+verifyResetOtp: async (
+  payload: VerifyResetOtpPayload,
+): Promise<VerifyResetOtpResponse> => {
+  const response = await api.post<VerifyResetOtpResponse>(
+    "/auth/verify-reset-otp",
+    payload,
+  );
+
+  return response.data;
+},
+
+resetPassword: async (
+  payload: ResetPasswordPayload,
+): Promise<ResetPasswordResponse> => {
+  const response = await api.post<ResetPasswordResponse>(
+    "/auth/reset-password",
     payload,
   );
 

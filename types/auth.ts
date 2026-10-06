@@ -108,3 +108,44 @@ export interface VerifyEmailResponse {
     emailVerified: boolean;
   };
 }
+
+export interface ForgotPasswordPayload {
+  email: string;
+}
+
+export interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+  };
+}
+
+export interface VerifyResetOtpPayload {
+  email: string;
+  otp: string;
+}
+
+export interface VerifyResetOtpResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+    verified: boolean;
+  };
+}
+
+export interface ResetPasswordPayload {
+  email: string;
+  otp: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+    passwordReset: boolean;
+  };
+}
