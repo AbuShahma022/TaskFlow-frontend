@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import type { GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, UpdateProfileResponse } from "@/types/auth";
+import type { ChangePasswordPayload, ChangePasswordResponse, GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, UpdateProfileResponse } from "@/types/auth";
 
 export const authService = {
   getMe: async (): Promise<MeResponse> => {
@@ -40,6 +40,17 @@ updateProfile: async (
   const response = await api.patch<UpdateProfileResponse>(
     "/users/me",
     formData,
+  );
+
+  return response.data;
+},
+
+changePassword: async (
+  payload: ChangePasswordPayload,
+): Promise<ChangePasswordResponse> => {
+  const response = await api.patch<ChangePasswordResponse>(
+    "/users/change-password",
+    payload,
   );
 
   return response.data;

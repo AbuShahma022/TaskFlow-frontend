@@ -56,3 +56,13 @@ export interface UpdateProfileResponse {
     updatedAt: string;
   };
 }
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordResponse {
+  success: boolean;
+  message: string;
+}

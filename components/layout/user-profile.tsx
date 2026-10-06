@@ -72,7 +72,7 @@ export function UserProfile() {
           Profile
         </DropdownMenuItem>
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/settings")}>
           <Settings />
           Settings
         </DropdownMenuItem>
