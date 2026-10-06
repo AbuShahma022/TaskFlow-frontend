@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import type { ChangePasswordPayload, ChangePasswordResponse, GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, UpdateProfileResponse } from "@/types/auth";
+import type { ChangePasswordPayload, ChangePasswordResponse, GoogleLoginPayload, LoginPayload, LoginResponse, MeResponse, RegisterPayload, RegisterResponse, SendVerificationOtpResponse, UpdateProfileResponse, VerifyEmailPayload, VerifyEmailResponse } from "@/types/auth";
 
 export const authService = {
   getMe: async (): Promise<MeResponse> => {
@@ -50,6 +50,36 @@ changePassword: async (
 ): Promise<ChangePasswordResponse> => {
   const response = await api.patch<ChangePasswordResponse>(
     "/users/change-password",
+    payload,
+  );
+
+  return response.data;
+},
+
+register: async (
+  payload: RegisterPayload,
+): Promise<RegisterResponse> => {
+  const response = await api.post<RegisterResponse>(
+    "/auth/register",
+    payload,
+  );
+
+  return response.data;
+},
+
+sendVerificationOtp: async (): Promise<SendVerificationOtpResponse> => {
+  const response = await api.post<SendVerificationOtpResponse>(
+    "/auth/send-verification-otp",
+  );
+
+  return response.data;
+},
+
+verifyEmail: async (
+  payload: VerifyEmailPayload,
+): Promise<VerifyEmailResponse> => {
+  const response = await api.post<VerifyEmailResponse>(
+    "/auth/verify-email",
     payload,
   );
 

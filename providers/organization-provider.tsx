@@ -10,6 +10,7 @@ import {
 
 import { useOrganizations } from "@/hooks/queries/use-organizations";
 import { OrganizationMembership } from "@/types/organization";
+import { useAuth } from "@/providers/auth-provider";
 
 interface OrganizationContextValue {
   organizations: OrganizationMembership[];
@@ -28,6 +29,7 @@ export function OrganizationProvider({
 }: {
   children: ReactNode;
 }) {
+  const { user } = useAuth();
   const { data, isLoading, isError } = useOrganizations();
 
   const [
@@ -40,20 +42,27 @@ export function OrganizationProvider({
   (membership) =>
     membership.organization.id === selectedOrganizationId,
 );
-
   useEffect(() => {
-    if (
-      !selectedOrganizationId &&
-      organizations.length > 0
-    ) {
-      setSelectedOrganizationId(
-        organizations[0].organization.id,
-      );
-    }
-  }, [
-    organizations,
-    selectedOrganizationId,
-  ]);
+  if (!user) {
+    setSelectedOrganizationId(null);
+  }
+}, [user]);
+ 
+useEffect(() => {
+  if (
+    user &&
+    !selectedOrganizationId &&
+    organizations.length > 0
+  ) {
+    setSelectedOrganizationId(
+      organizations[0].organization.id,
+    );
+  }
+}, [
+  user,
+  organizations,
+  selectedOrganizationId,
+]);
 
   return (
     <OrganizationContext.Provider

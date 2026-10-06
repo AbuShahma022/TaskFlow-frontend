@@ -66,3 +66,45 @@ export interface ChangePasswordResponse {
   success: boolean;
   message: string;
 }
+
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: string;
+    name: string;
+    email: string;
+    role: PlatformRole;
+    status: UserStatus;
+    emailVerified: boolean;
+    createdAt: string;
+  };
+}
+
+
+export interface SendVerificationOtpResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+  };
+}
+
+export interface VerifyEmailPayload {
+  otp: string;
+}
+
+export interface VerifyEmailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+    emailVerified: boolean;
+  };
+}

@@ -12,15 +12,25 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: authService.logout,
 
-    onSuccess: async () => {
-      queryClient.removeQueries({
-        queryKey: QUERY_KEYS.AUTH.ME,
-      });
+onSuccess: async () => {
+  await queryClient.cancelQueries({
+    queryKey: QUERY_KEYS.AUTH.ME,
+  });
 
-      toast.success("Logged out successfully");
+  queryClient.setQueryData(QUERY_KEYS.AUTH.ME, undefined);
 
-      router.replace("/login");
-    },
+  queryClient.removeQueries({
+    queryKey: QUERY_KEYS.ORGANIZATIONS.LIST,
+  });
+
+  queryClient.removeQueries({
+    queryKey: QUERY_KEYS.ORGANIZATIONS.ALL,
+  });
+
+  toast.success("Logged out successfully");
+
+  router.replace("/login");
+},
 
     onError: () => {
       toast.error("Logout failed. Please try again.");

@@ -17,6 +17,7 @@ export const useLogin = () => {
 onSuccess: async (data) => {
   await queryClient.invalidateQueries({
     queryKey: QUERY_KEYS.AUTH.ME,
+    
   });
 
   toast.success("Login successful");

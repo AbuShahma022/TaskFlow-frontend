@@ -3,6 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { KeyRound } from "lucide-react";
 import { ChangePasswordForm } from "@/components/settings/change-password-form";
+import { MailCheck } from "lucide-react";
+import { EmailVerificationForm } from "@/components/settings/email-verification-form";
 
 export default function SettingsPage() {
   return (
@@ -14,6 +16,19 @@ export default function SettingsPage() {
           Manage your account settings.
         </p>
       </div>
+
+      <Card className="max-w-2xl">
+  <CardHeader>
+    <CardTitle className="flex items-center gap-2">
+      <MailCheck className="size-5" />
+      Email Verification
+    </CardTitle>
+  </CardHeader>
+
+  <CardContent>
+    <EmailVerificationForm />
+  </CardContent>
+</Card>
 
       <Card className="max-w-2xl">
         <CardHeader>
