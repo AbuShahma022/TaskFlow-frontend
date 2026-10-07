@@ -21,7 +21,7 @@ const plans = [
   {
     name: "Pro",
     description: "For teams that need more room to grow.",
-    price: "Paid",
+    price: "20$",
     period: "per subscription",
     features: [
       "Everything in Free",
